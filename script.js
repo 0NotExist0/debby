@@ -301,29 +301,53 @@
     }
 
     // ========================================
-    // RANDOM CAT ANIMATIONS
+    // RANDOM CAT ANIMATIONS (with GIFs)
     // ========================================
     function initRandomCats() {
-        const catEmojis = ['🐱', '🐈', '😺', '😸', '😻', '🙀', '😽', '🐾'];
+        // Cat GIF URLs from Giphy media CDN (reliable, fast, transparent backgrounds)
+        const catGifs = [
+            'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',           // cute cat waving
+            'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif',           // cat sleeping
+            'https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif',       // cat playing
+            'https://media.giphy.com/media/3o7TKSjRrfIPjeiVyI/giphy.gif',      // cat jumping
+            'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',       // cat stretching
+            'https://media.giphy.com/media/11sBLVxNs7v6WA/giphy.gif',          // cat typing
+            'https://media.giphy.com/media/l3vRm9QjrI9r8Lwz2/giphy.gif',       // cat rolling
+            'https://media.giphy.com/media/5xaOcJ9jE5QzG/giphy.gif',           // cat surprised
+            'https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif',       // cat playing with ball
+            'https://media.giphy.com/media/26BRrSvzUa0crqg4E/giphy.gif',       // cat walking
+            'https://media.giphy.com/media/3o7TKrB89bNfBqV2oM/giphy.gif',      // cat hiding
+            'https://media.giphy.com/media/l41lF4vWb4Kf47e8Y/giphy.gif'        // cat purring
+        ];
         const catCount = 3; // Number of cats visible at once
         let activeCats = [];
         let animationId = null;
 
         function createCat() {
-            const cat = document.createElement('div');
+            const cat = document.createElement('img');
             cat.className = 'scroll-cat';
-            cat.textContent = catEmojis[Math.floor(Math.random() * catEmojis.length)];
+            cat.src = catGifs[Math.floor(Math.random() * catGifs.length)];
+            cat.alt = 'Decorative cat animation';
+            cat.loading = 'lazy';
             cat.style.cssText = `
                 position: fixed;
-                font-size: ${Math.random() * 20 + 20}px;
+                width: ${Math.random() * 60 + 60}px;
+                height: auto;
                 pointer-events: none;
                 user-select: none;
                 z-index: 9999;
                 opacity: 0;
-                transform: translateY(100vh) rotate(${Math.random() * 360}deg);
-                transition: opacity 0.3s ease, transform 0.3s ease;
+                transform: translateY(100vh) rotate(${Math.random() * 30 - 15}deg);
+                transition: opacity 0.5s ease, transform 0.5s ease;
                 will-change: transform, opacity;
+                filter: drop-shadow(0 4px 8px rgba(232, 121, 201, 0.3));
             `;
+
+            // Handle load error - try another GIF
+            cat.onerror = () => {
+                cat.src = catGifs[Math.floor(Math.random() * catGifs.length)];
+            };
+
             document.body.appendChild(cat);
             return cat;
         }
