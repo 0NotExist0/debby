@@ -567,6 +567,7 @@
         updateFooterYear();
         preloadCriticalResources();
         initRandomCats();
+        initPdfGeneration();
 
         // Log initialization
         console.log('🚀 Portfolio initialized successfully');
@@ -577,12 +578,80 @@
     init();
 
     // ========================================
-    // EXPOSE PUBLIC API (for debugging)
+    // PDF GENERATION
     // ========================================
-    window.Portfolio = {
-        config: CONFIG,
-        showToast,
-        renderSkills
-    };
+    function initPdfGeneration() {
+        const pdfBtn = $('#generate-pdf-btn');
+        if (!pdfBtn || typeof html2pdf === 'undefined') {
+            if (pdfBtn) pdfBtn.style.display = 'none';
+            return;
+        }
+
+        pdfBtn.addEventListener('click', async () => {
+            const originalText = pdfBtn.textContent;
+            pdfBtn.textContent = 'Generazione...';
+            pdfBtn.disabled = true;
+
+            try {
+                // Clone the main content for PDF
+                const mainContent = document.querySelector('main').cloneNode(true);
+
+                // Remove elements we don't want in PDF
+                const elementsToRemove = mainContent.querySelectorAll('.hero__actions, .hero__social, .contact__methods a[href^="mailto:"], .contact__methods a[href^="tel:"], .contact__methods a[href^="https://linkedin"]');
+                elementsToRemove.forEach(el => el.remove());
+
+                // Add print-specific styles
+                const style = document.createElement('style');
+                style.textContent = `
+                    @page { margin: 20mm; size: A4; }
+                    body { background: white !important; color: #1a1a2e !important; }
+                    .hero { min-height: auto !important; padding-top: 0 !important; background: none !important; text-align: center; }
+                    .hero::before, .hero::after { display: none !important; }
+                    .section__title::after { content: '' !important; }
+                    .btn, .hero__actions, .hero__social { display: none !important; }
+                    .nav, .header, .footer { display: none !important; }
+                    .timeline::before, .timeline::after { display: none !important; }
+                    .timeline__marker { display: none !important; }
+                    .stat::before, .education__card::before, .skills__category::before, .timeline__content::before { display: none !important; }
+                    .skills__category-title::after { display: none !important; }
+                    .contact__method::before { display: none !important; }
+                    .footer::before { display: none !important; }
+                    .about::before, .about::after, .education::before, .education::after, .skills::before, .skills::after, .contact::before, .contact::after, .experience::before { display: none !important; }
+                    .stat:hover, .education__card:hover, .skills__category:hover, .timeline__content:hover, .contact__method:hover { transform: none !important; box-shadow: none !important; }
+                    .skill-tag:hover { transform: none !important; }
+                    * { animation: none !important; transition: none !important; }
+                    .scroll-cat { display: none !important; }
+                `;
+                mainContent.appendChild(style);
+
+                const opt = {
+                    margin: [15, 15, 15, 15],
+                    filename: 'CV-Deborah-Servidio.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true,
+                        letterRendering: true,
+                        logging: false
+                    },
+                    jsPDF: {
+                        unit: 'mm',
+                        format: 'a4',
+                        orientation: 'portrait'
+                    },
+                    pagebreak: { mode: 'avoid-all', avoid: ['.timeline__content', '.education__card', '.skills__category', '.stat', '.contact__method'] }
+                };
+
+                await html2pdf().set(opt).from(mainContent).save();
+                showToast('PDF generato con successo! 🐱');
+            } catch (error) {
+                console.error('Errore generazione PDF:', error);
+                showToast('Errore durante la generazione del PDF');
+            } finally {
+                pdfBtn.textContent = originalText;
+                pdfBtn.disabled = false;
+            }
+        });
+    }
 
 })();

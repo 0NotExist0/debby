@@ -45,6 +45,7 @@
                     <div class="hero__actions">
                         <a href="#contact" class="btn btn--primary">Contattami</a>
                         <a href="CV - Deborah Servidio.pdf" class="btn btn--secondary" download>Scarica CV</a>
+                        <button class="btn btn--secondary" id="generate-pdf-btn" type="button">Genera PDF</button>
                     </div>
                     <div class="hero__social">
                         <a href="mailto:deborah.servidio1997@gmail.com" class="hero__social-link" aria-label="Email">
@@ -92,6 +93,30 @@
             <div class="container">
                 <h2 class="section__title">Esperienza Lavorativa</h2>
                 <div class="timeline">
+                    <article class="timeline__item">
+                        <div class="timeline__marker"></div>
+                        <div class="timeline__content">
+                            <div class="timeline__header">
+                                <h3 class="timeline__role">Coop - Esperienza Lavorativa</h3>
+                                <span class="timeline__company">Coop (Part time)</span>
+                            </div>
+                            <div class="timeline__meta">
+                                <time class="timeline__date">Aprile 2026 - Giugno 2026</time>
+                                <span class="timeline__location">Torino (TO)</span>
+                            </div>
+                            <ul class="timeline__achievements">
+                                <li>Accoglienza e assistenza alla clientela presso il punto vendita</li>
+                                <li>Rifornimento scaffali, rotazione merci e controllo scadenze</li>
+                                <li>Gestione cassa e pagamenti (contanti, carte, buoni pasto)</li>
+                                <li>Riordino reparti, allestimento promozioni e inventario</li>
+                                <li>Collaborazione con il team per garantire standard di servizio elevati</li>
+                            </ul>
+                            <div class="timeline__tech">
+                                <span>Gestione Cassa</span><span>Rifornimento Scaffali</span><span>Assistenza Clienti</span><span>Controllo Scadenze</span><span>Lavoro di Squadra</span>
+                            </div>
+                        </div>
+                    </article>
+
                     <article class="timeline__item">
                         <div class="timeline__marker"></div>
                         <div class="timeline__content">
@@ -235,6 +260,18 @@
                             <li>Risoluzione problemi, uso consapevole tecnologie digitali</li>
                         </ul>
                     </article>
+
+                    <article class="education__card">
+                        <div class="education__icon">💄</div>
+                        <h3 class="education__degree">Attestato Accademia Make-up Artisti</h3>
+                        <p class="education__school">Accademia Make-up Artisti by Greta Volpi - Kryolan Torino</p>
+                        <p class="education__details">2018 - 2019</p>
+                        <ul class="education__highlights">
+                            <li>Trucco correttivo, sposa, fotografico, teatrale e cinematografico</li>
+                            <li>Tecniche aerografo, body painting, effetti speciali</li>
+                            <li>Utilizzo prodotti professionali Kryolan</li>
+                        </ul>
+                    </article>
                 </div>
             </div>
         </section>
@@ -341,6 +378,9 @@
         <symbol id="icon-phone" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35-.03.74-.25 1.02l-2.2 2.2z"/></symbol>
         <symbol id="icon-check" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></symbol>
     </svg>
+
+    <!-- html2pdf library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="script.js"></script>
 </body>
