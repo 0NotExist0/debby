@@ -259,11 +259,11 @@
         if (!titleElement) return;
 
         const roles = [
-            'Full Stack Developer',
-            'Software Engineer',
-            'Problem Solver',
-            'Tech Enthusiast',
-            'Cloud Architect'
+            'Assistente alle vendite',
+            'Assistente studio odontoiatrico',
+            'Esperta retail & sanitario',
+            'Precisione e cortesia',
+            'Pronta per nuove sfide'
         ];
 
         let roleIndex = 0;
@@ -298,6 +298,117 @@
 
         // Start after a short delay
         setTimeout(type, 1000);
+    }
+
+    // ========================================
+    // RANDOM CAT ANIMATIONS
+    // ========================================
+    function initRandomCats() {
+        const catEmojis = ['🐱', '🐈', '😺', '😸', '😻', '🙀', '😽', '🐾'];
+        const catCount = 3; // Number of cats visible at once
+        let activeCats = [];
+        let animationId = null;
+
+        function createCat() {
+            const cat = document.createElement('div');
+            cat.className = 'scroll-cat';
+            cat.textContent = catEmojis[Math.floor(Math.random() * catEmojis.length)];
+            cat.style.cssText = `
+                position: fixed;
+                font-size: ${Math.random() * 20 + 20}px;
+                pointer-events: none;
+                user-select: none;
+                z-index: 9999;
+                opacity: 0;
+                transform: translateY(100vh) rotate(${Math.random() * 360}deg);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                will-change: transform, opacity;
+            `;
+            document.body.appendChild(cat);
+            return cat;
+        }
+
+        function animateCat(cat) {
+            const startX = Math.random() * window.innerWidth;
+            const endX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 8000 + 5000; // 5-13 seconds
+            const delay = Math.random() * 2000;
+            const rotation = Math.random() * 360;
+
+            cat.style.left = `${startX}px`;
+            cat.style.top = `${window.innerHeight + 50}px`;
+
+            // Trigger reflow
+            cat.offsetHeight;
+
+            cat.style.opacity = '0.7';
+            cat.style.transition = `transform ${duration}ms linear, opacity 0.5s ease`;
+            cat.style.transform = `translate(${endX - startX}px, -${window.innerHeight + 100}px) rotate(${rotation}deg)`;
+
+            setTimeout(() => {
+                cat.style.opacity = '0';
+                setTimeout(() => cat.remove(), 500);
+            }, duration);
+        }
+
+        function spawnCats() {
+            // Keep a maximum number of cats
+            if (activeCats.length >= catCount) {
+                const oldCat = activeCats.shift();
+                oldCat.style.opacity = '0';
+                setTimeout(() => oldCat.remove(), 500);
+            }
+
+            const cat = createCat();
+            activeCats.push(cat);
+            animateCat(cat);
+        }
+
+        function startCatAnimation() {
+            // Initial spawn
+            for (let i = 0; i < catCount; i++) {
+                setTimeout(spawnCats, i * 1500);
+            }
+
+            // Continue spawning
+            animationId = setInterval(spawnCats, 4000);
+        }
+
+        function stopCatAnimation() {
+            if (animationId) {
+                clearInterval(animationId);
+                animationId = null;
+            }
+            activeCats.forEach(cat => {
+                cat.style.opacity = '0';
+                setTimeout(() => cat.remove(), 500);
+            });
+            activeCats = [];
+        }
+
+        // Start when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startCatAnimation);
+        } else {
+            startCatAnimation();
+        }
+
+        // Pause when tab is not visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopCatAnimation();
+            } else {
+                startCatAnimation();
+            }
+        });
+
+        // Respect reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return; // Don't start animation
+        }
+
+        // Expose for debugging
+        window.CatAnimation = { start: startCatAnimation, stop: stopCatAnimation };
     }
 
     // ========================================
@@ -455,6 +566,7 @@
         initLazyLoading();
         updateFooterYear();
         preloadCriticalResources();
+        initRandomCats();
 
         // Log initialization
         console.log('🚀 Portfolio initialized successfully');
