@@ -301,53 +301,29 @@
     }
 
     // ========================================
-    // RANDOM CAT ANIMATIONS (with GIFs)
+    // RISING EMOJI CATS (original animation)
     // ========================================
-    function initRandomCats() {
-        // Cat GIF URLs from Giphy media CDN (reliable, fast, transparent backgrounds)
-        const catGifs = [
-            'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',           // cute cat waving
-            'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif',           // cat sleeping
-            'https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif',       // cat playing
-            'https://media.giphy.com/media/3o7TKSjRrfIPjeiVyI/giphy.gif',      // cat jumping
-            'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',       // cat stretching
-            'https://media.giphy.com/media/11sBLVxNs7v6WA/giphy.gif',          // cat typing
-            'https://media.giphy.com/media/l3vRm9QjrI9r8Lwz2/giphy.gif',       // cat rolling
-            'https://media.giphy.com/media/5xaOcJ9jE5QzG/giphy.gif',           // cat surprised
-            'https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif',       // cat playing with ball
-            'https://media.giphy.com/media/26BRrSvzUa0crqg4E/giphy.gif',       // cat walking
-            'https://media.giphy.com/media/3o7TKrB89bNfBqV2oM/giphy.gif',      // cat hiding
-            'https://media.giphy.com/media/l41lF4vWb4Kf47e8Y/giphy.gif'        // cat purring
-        ];
-        const catCount = 3; // Number of cats visible at once
+    function initRisingEmojiCats() {
+        const catEmojis = ['🐱', '🐈', '😺', '😸', '😻', '🙀', '😽', '🐾'];
+        const catCount = 3;
         let activeCats = [];
         let animationId = null;
 
         function createCat() {
-            const cat = document.createElement('img');
-            cat.className = 'scroll-cat';
-            cat.src = catGifs[Math.floor(Math.random() * catGifs.length)];
-            cat.alt = 'Decorative cat animation';
-            cat.loading = 'lazy';
+            const cat = document.createElement('div');
+            cat.className = 'scroll-cat-emoji';
+            cat.textContent = catEmojis[Math.floor(Math.random() * catEmojis.length)];
             cat.style.cssText = `
                 position: fixed;
-                width: ${Math.random() * 60 + 60}px;
-                height: auto;
+                font-size: ${Math.random() * 20 + 20}px;
                 pointer-events: none;
                 user-select: none;
                 z-index: 9999;
                 opacity: 0;
-                transform: translateY(100vh) rotate(${Math.random() * 30 - 15}deg);
-                transition: opacity 0.5s ease, transform 0.5s ease;
+                transform: translateY(100vh) rotate(${Math.random() * 360}deg);
+                transition: opacity 0.3s ease, transform 0.3s ease;
                 will-change: transform, opacity;
-                filter: drop-shadow(0 4px 8px rgba(232, 121, 201, 0.3));
             `;
-
-            // Handle load error - try another GIF
-            cat.onerror = () => {
-                cat.src = catGifs[Math.floor(Math.random() * catGifs.length)];
-            };
-
             document.body.appendChild(cat);
             return cat;
         }
@@ -355,14 +331,12 @@
         function animateCat(cat) {
             const startX = Math.random() * window.innerWidth;
             const endX = Math.random() * window.innerWidth;
-            const duration = Math.random() * 8000 + 5000; // 5-13 seconds
-            const delay = Math.random() * 2000;
+            const duration = Math.random() * 8000 + 5000;
             const rotation = Math.random() * 360;
 
             cat.style.left = `${startX}px`;
             cat.style.top = `${window.innerHeight + 50}px`;
 
-            // Trigger reflow
             cat.offsetHeight;
 
             cat.style.opacity = '0.7';
@@ -376,7 +350,6 @@
         }
 
         function spawnCats() {
-            // Keep a maximum number of cats
             if (activeCats.length >= catCount) {
                 const oldCat = activeCats.shift();
                 oldCat.style.opacity = '0';
@@ -389,12 +362,9 @@
         }
 
         function startCatAnimation() {
-            // Initial spawn
             for (let i = 0; i < catCount; i++) {
                 setTimeout(spawnCats, i * 1500);
             }
-
-            // Continue spawning
             animationId = setInterval(spawnCats, 4000);
         }
 
@@ -410,14 +380,12 @@
             activeCats = [];
         }
 
-        // Start when page loads
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', startCatAnimation);
         } else {
             startCatAnimation();
         }
 
-        // Pause when tab is not visible
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 stopCatAnimation();
@@ -426,13 +394,105 @@
             }
         });
 
-        // Respect reduced motion preference
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            return; // Don't start animation
+            return;
         }
 
-        // Expose for debugging
         window.CatAnimation = { start: startCatAnimation, stop: stopCatAnimation };
+    }
+
+    // ========================================
+    // GIF CAT ADS (static scattered ads)
+    // ========================================
+    function initGifCatAds() {
+        // Cat GIF URLs from Giphy media CDN
+        const catGifs = [
+            'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',           // cute cat waving
+            'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif',           // cat sleeping
+            'https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif',       // cat playing
+            'https://media.giphy.com/media/3o7TKSjRrfIPjeiVyI/giphy.gif',      // cat jumping
+            'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',       // cat stretching
+            'https://media.giphy.com/media/11sBLVxNs7v6WA/giphy.gif',          // cat typing
+            'https://media.giphy.com/media/l3vRm9QjrI9r8Lwz2/giphy.gif',       // cat rolling
+            'https://media.giphy.com/media/5xaOcJ9jE5QzG/giphy.gif',           // cat surprised
+            'https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif',       // cat playing with ball
+            'https://media.giphy.com/media/26BRrSvzUa0crqg4E/giphy.gif',       // cat walking
+            'https://media.giphy.com/media/3o7TKrB89bNfBqV2oM/giphy.gif',      // cat hiding
+            'https://media.giphy.com/media/l41lF4vWb4Kf47e8Y/giphy.gif'        // cat purring
+        ];
+
+        // Find all sections and add a cat ad to some of them
+        const sections = document.querySelectorAll('section:not(.hero)');
+        const adCount = Math.min(4, sections.length); // Max 4 ads
+        const shuffledSections = Array.from(sections).sort(() => 0.5 - Math.random());
+
+        for (let i = 0; i < adCount; i++) {
+            const section = shuffledSections[i];
+            const container = section.querySelector('.container') || section;
+
+            const adWrapper = document.createElement('div');
+            adWrapper.className = 'cat-ad-wrapper';
+            adWrapper.style.cssText = `
+                position: relative;
+                margin: var(--space-xl) 0;
+                text-align: center;
+            `;
+
+            const catImg = document.createElement('img');
+            catImg.className = 'cat-ad-gif';
+            catImg.src = catGifs[Math.floor(Math.random() * catGifs.length)];
+            catImg.alt = 'Simpatico gattino pubblicitario';
+            catImg.loading = 'lazy';
+            catImg.style.cssText = `
+                max-width: 180px;
+                width: 100%;
+                height: auto;
+                border-radius: var(--radius-xl);
+                box-shadow: var(--shadow-lg);
+                border: 3px solid var(--color-primary-light);
+                transition: transform var(--transition-base), box-shadow var(--transition-base);
+                cursor: pointer;
+            `;
+
+            catImg.onerror = () => {
+                catImg.src = catGifs[Math.floor(Math.random() * catGifs.length)];
+            };
+
+            // Add hover effect
+            catImg.addEventListener('mouseenter', () => {
+                catImg.style.transform = 'scale(1.05) rotate(-2deg)';
+                catImg.style.boxShadow = 'var(--shadow-kitten)';
+            });
+            catImg.addEventListener('mouseleave', () => {
+                catImg.style.transform = 'scale(1) rotate(0deg)';
+                catImg.style.boxShadow = 'var(--shadow-lg)';
+            });
+
+            // Add a cute label
+            const label = document.createElement('p');
+            label.className = 'cat-ad-label';
+            label.textContent = '🐱 Pubblicità gattona 🐱';
+            label.style.cssText = `
+                margin-top: var(--space-xs);
+                font-family: var(--font-family-heading);
+                font-size: var(--font-size-xs);
+                font-weight: 600;
+                color: var(--color-primary);
+                opacity: 0.8;
+            `;
+
+            adWrapper.appendChild(catImg);
+            adWrapper.appendChild(label);
+
+            // Insert at a random position within the container
+            const children = container.children;
+            if (children.length > 1) {
+                const insertIndex = Math.floor(Math.random() * (children.length - 1)) + 1;
+                container.insertBefore(adWrapper, children[insertIndex]);
+            } else {
+                container.appendChild(adWrapper);
+            }
+        }
     }
 
     // ========================================
@@ -590,7 +650,8 @@
         initLazyLoading();
         updateFooterYear();
         preloadCriticalResources();
-        initRandomCats();
+        initRisingEmojiCats();
+        initGifCatAds();
         initPdfGeneration();
 
         // Log initialization
