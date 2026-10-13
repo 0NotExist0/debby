@@ -405,20 +405,13 @@
     // GIF CAT ADS (static scattered ads)
     // ========================================
     function initGifCatAds() {
-        // Cat GIF URLs from Giphy media CDN
+        // Local cat GIFs from the Giff folder
         const catGifs = [
-            'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',           // cute cat waving
-            'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif',           // cat sleeping
-            'https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif',       // cat playing
-            'https://media.giphy.com/media/3o7TKSjRrfIPjeiVyI/giphy.gif',      // cat jumping
-            'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',       // cat stretching
-            'https://media.giphy.com/media/11sBLVxNs7v6WA/giphy.gif',          // cat typing
-            'https://media.giphy.com/media/l3vRm9QjrI9r8Lwz2/giphy.gif',       // cat rolling
-            'https://media.giphy.com/media/5xaOcJ9jE5QzG/giphy.gif',           // cat surprised
-            'https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif',       // cat playing with ball
-            'https://media.giphy.com/media/26BRrSvzUa0crqg4E/giphy.gif',       // cat walking
-            'https://media.giphy.com/media/3o7TKrB89bNfBqV2oM/giphy.gif',      // cat hiding
-            'https://media.giphy.com/media/l41lF4vWb4Kf47e8Y/giphy.gif'        // cat purring
+            'Giff/44a8dabf0e4bf6e2616cd0f6d0ce5912.gif',
+            'Giff/795fe5ccdb8b3652a44ad25cd9a9ef6f.gif',
+            'Giff/3910a613a164909809dc9c67237c4a1d.gif',
+            'Giff/tumblr_f00b8b6b9cf56804a514b61b13ee1e92_9a7b5894_500.gif',
+            'Giff/1715b1a55f902ed9bdc4df3b5cad5f7b.gif'
         ];
 
         // Find all sections and add a cat ad to some of them

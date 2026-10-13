@@ -1,0 +1,12 @@
+{
+  "name": "curriculum-debby",
+  "version": "1.0.0",
+  "description": "CV website for Deborah Servidio",
+  "main": "generate-pdf.js",
+  "scripts": {
+    "generate-pdf": "node generate-pdf.js"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  }
+}
